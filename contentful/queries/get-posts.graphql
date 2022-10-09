@@ -1,0 +1,11 @@
+query GetBlogPosts {
+  entryCollection {
+    items {
+      ... on Post {
+        sys {
+          id
+        }
+      }
+    }
+  }
+}
