@@ -5,6 +5,7 @@ query GetBlogPosts {
         sys {
           id
         }
+        title
       }
     }
   }

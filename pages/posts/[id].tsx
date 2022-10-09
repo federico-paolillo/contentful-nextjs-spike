@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { newContentfulClient } from "../../contentful/client";
 
@@ -20,7 +20,9 @@ const contentfulClient = newContentfulClient(
   process.env.CONTENTFUL_CONTENT_DELIVERY_API_KEY
 );
 
-const BlogPostPage = ({ blogPost }: BlogPostPageProps) => {
+const BlogPostPage: NextPage<BlogPostPageProps> = ({
+  blogPost,
+}: BlogPostPageProps) => {
   return (
     <>
       <h2>{blogPost.title}</h2>
@@ -31,7 +33,7 @@ const BlogPostPage = ({ blogPost }: BlogPostPageProps) => {
 
 export const getStaticPaths: GetStaticPaths<BlogPostPageSsrParams> =
   async function () {
-    var blogPostsQueryResult = await contentfulClient.GetBlogPosts();
+    const blogPostsQueryResult = await contentfulClient.GetBlogPosts();
 
     const blogPostIds =
       blogPostsQueryResult.entryCollection?.items.map((item) => item?.sys.id) ||
@@ -60,7 +62,9 @@ export const getStaticProps: GetStaticProps<
   });
 
   if (!blogPostQueryResult.post) {
-    throw new Error(`Blog Post ${params.id} is missing`);
+    return {
+      notFound: true,
+    };
   }
 
   const blogPost: BlogPost = {
