@@ -6,19 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen",
+    "prebuild": "npm run codegen",
+    "predev": "npm run codegen",
+    "prestart": "npm run codegen",
+    "postinstall": "npm run codegen"
   },
   "dependencies": {
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.0.0",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.13.5",
+    "@graphql-codegen/introspection": "2.2.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.5",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
     "@types/node": "18.8.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "dotenv": "^16.0.3",
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
+    "graphql-config": "^4.3.6",
+    "graphql-language-service-server": "^2.8.3",
     "typescript": "4.8.4"
   }
 }
