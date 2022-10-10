@@ -9,10 +9,12 @@ The application mainly uses [SSR](https://nextjs.org/docs/basic-features/data-fe
 
 Integration with Contentful uses the [Content Delivery GraphQL API](https://www.contentful.com/developers/docs/references/graphql/). To speed-up development and avoid mistakes the application is using [`@graphql-codegen`](https://www.the-guild.dev/graphql/codegen) to automagically generate TypeScript type definitions and operations. All GraphQL API calls are made with [`graphql-request`](https://github.com/prisma-labs/graphql-request).
 
-`@graphql-codegen` is configured bye `codegen.ts` to use three plugins: [`typescript`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript), [`typescript-operations`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-operations) and [`typescript-graphql-requests`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-graphql-request).  
+`@graphql-codegen` is configured by `codegen.ts` to use three plugins: [`typescript`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript), [`typescript-operations`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-operations) and [`typescript-graphql-requests`](https://www.the-guild.dev/graphql/codegen/plugins/typescript/typescript-graphql-request).  
 We are not using the client preset because it severely [limits the configuration options](https://github.com/dotansimha/graphql-code-generator/blob/d00c9867d3a568ccae099237400851281d05cff6/packages/presets/client/src/index.ts#L72) that can be passed to it. Additionally, specifying again the same plugins declared in the preset will duplicate the generated TypeScript definitions. `typescript-graphql-request` can [output only to a single file](https://github.com/dotansimha/graphql-code-generator/blob/d00c9867d3a568ccae099237400851281d05cff6/packages/plugins/typescript/graphql-request/src/index.ts#L45), in our case it is `contentful/gql.g.ts`.
 
-Configuration is loaded using [`dotenv`](https://github.com/motdotla/dotenv), you have to setup a file named `.env.local` that has the actual configuration values. See `.env.example` for the list of entries that you need to configure.
+Configuration is loaded using [`dotenv`](https://github.com/motdotla/dotenv), you have to setup a file named `.env.local` that has the actual configuration values. See `.env.example` for the list of entries that you need to configure. Environment variables are typed through `dotenv.d.ts`, these typings are manual so watch your typos.
+
+There is one [API Route](https://nextjs.org/docs/api-routes/introduction) available under `posts/revalidate` that is used to triggere [revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation) (using Incremental Static Regeneration) of the Blog Posts index page on-demand to keep the index up-to-date with Blog Posts published or unpublished. This API is called automatically by [Contentful Web Hooks](https://www.contentful.com/developers/docs/concepts/webhooks/) anytime a new Blog Post is published or unpublished. Single Blog Post pages are not revalidated, but any page for new Blog Posts that was not generated at build time is rendered and cached using `fallback: "blocking"`.
 
 It goes without saying that you _have to_ use my Contenful CMS space or create your own space and mimic my data, see: `contentful/queries` to get an idea of the Content Types that you need to have.
 
@@ -20,4 +22,4 @@ The application has absolutely no styles whatsoever.
 
 ## Run
 
-`npm run dev`
+Setup a `.env.local` file using `.env.example` as basis and then run `npm run dev`
