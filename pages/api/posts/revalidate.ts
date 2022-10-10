@@ -5,21 +5,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     req.headers[process.env.REVALIDATE_KEY_HEADER_NAME];
 
   if (!maybeRevalidationToken) {
-    res.status(400);
-    return;
+    return res.status(400);
   }
 
   if (Array.isArray(maybeRevalidationToken)) {
-    res.status(400);
-    return;
+    return res.status(400);
   }
 
   if (maybeRevalidationToken !== process.env.REVALIDATE_KEY) {
     res.status(401);
-    return;
   }
 
   await res.revalidate("/index");
 
-  res.status(204);
+  return res.status(204);
 }
