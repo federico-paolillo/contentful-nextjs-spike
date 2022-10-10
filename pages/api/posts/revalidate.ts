@@ -19,7 +19,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  await res.revalidate("/");
+  await res.revalidate("/index");
 
   res.status(204);
 }
