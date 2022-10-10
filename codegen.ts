@@ -26,6 +26,14 @@ const config: CodegenConfig = {
       ],
     },
   },
+  config: {
+    immutableTypes: true,
+    namingConvention: {
+      typeNames: "keep",
+      enumValues: "keep",
+      transformUnderscore: true,
+    },
+  },
 };
 
 export default config;
