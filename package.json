@@ -14,6 +14,7 @@
     "postinstall": "npm run codegen"
   },
   "dependencies": {
+    "clsx": "^1.2.1",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
     "next": "12.3.1",
@@ -26,14 +27,18 @@
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-graphql-request": "^4.5.5",
     "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@tailwindcss/typography": "^0.5.7",
     "@types/node": "18.8.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "autoprefixer": "^10.4.12",
     "dotenv": "^16.0.3",
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
     "graphql-config": "^4.3.6",
     "graphql-language-service-server": "^2.8.3",
+    "postcss": "^8.4.17",
+    "tailwindcss": "^3.1.8",
     "typescript": "4.8.4"
   }
 }
