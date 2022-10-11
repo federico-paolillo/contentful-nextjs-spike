@@ -42,7 +42,7 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
               </div>
 
               <div className="flex flex-col gap-2 sm:gap-4">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
+                <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
                   12 October 2022
                 </p>
 
@@ -65,7 +65,7 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
                       <Image src="/images/cover2.png" alt="Post image" fill />
                     </div>
                     <div className="flex w-full flex-col gap-1.5">
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
+                      <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
                         12 October 2022
                       </p>
 

@@ -29,22 +29,22 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({
   return (
     <>
       <Head>
-        <title>{blogPost.title} - Contentful + NextJS Spike</title>
+        <title>{`${blogPost.title} - Contentful + NextJS Spike`}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <BoxedLayout maxStretch="768px" className="pt-12 md:pt-24">
-        <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-8 sm:gap-16">
           <div className="flex flex-col gap-4">
-            <h1 className="text-5xl font-bold !leading-tight text-gray-700 dark:text-gray-200 sm:text-6xl">
+            <h1 className="text-4xl font-bold !leading-tight text-gray-900 dark:text-gray-200 sm:text-6xl">
               {blogPost.title}
             </h1>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
+            <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
               12 October 2022
             </p>
           </div>
 
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-8 sm:gap-16">
             <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
               <Image src="/images/cover2.png" alt="Post image" fill />
             </div>
