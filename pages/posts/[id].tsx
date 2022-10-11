@@ -36,16 +36,16 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({
       <BoxedLayout maxStretch="768px" className="pt-12 md:pt-24">
         <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-4">
-            <h1 className="!leading-tight text-5xl sm:text-6xl text-gray-700 dark:text-gray-200 font-bold">
+            <h1 className="text-5xl font-bold !leading-tight text-gray-700 dark:text-gray-200 sm:text-6xl">
               {blogPost.title}
             </h1>
-            <p className="text-gray-500 dark:text-gray-600 text-sm font-medium">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
               12 October 2022
             </p>
           </div>
 
           <div className="flex flex-col gap-16">
-            <div className="relative h-auto w-full aspect-video rounded overflow-hidden min-w-[50%]">
+            <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
               <Image src="/images/cover2.png" alt="Post image" fill />
             </div>
 

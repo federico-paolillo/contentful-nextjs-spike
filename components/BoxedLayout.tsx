@@ -14,7 +14,7 @@ export const BoxedLayout = ({
   <div
     className={clsx(
       className,
-      "grid justify-center w-full overflow-x-hidden py-8 px-6 sm:px-8"
+      "grid w-full justify-center overflow-x-hidden py-8 px-6 sm:px-8"
     )}
     style={{
       gridTemplateColumns: `minmax(${minStretch}, ${maxStretch})`,

@@ -31,22 +31,22 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
 
       <BoxedLayout>
         <div className="flex flex-col gap-20">
-          <h1 className="text-5xl sm:text-7xl text-gray-700 dark:text-gray-200 font-bold">
+          <h1 className="text-5xl font-bold text-gray-700 dark:text-gray-200 sm:text-7xl">
             A blog ✨
           </h1>
 
           <Link href={`posts/${firstBlogPostDetail.id}`}>
-            <div className="flex flex-col md:flex-row gap-4 md:gap-12 cursor-pointer">
-              <div className="relative h-auto w-full aspect-video rounded overflow-hidden min-w-[50%]">
+            <div className="flex cursor-pointer flex-col gap-4 md:flex-row md:gap-12">
+              <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
                 <Image src="/images/cover1.png" alt="Post image" fill />
               </div>
 
               <div className="flex flex-col gap-2 sm:gap-4">
-                <p className="text-gray-500 dark:text-gray-600 text-sm font-medium">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
                   12 October 2022
                 </p>
 
-                <h2 className="text-4xl sm:text-5xl leading-tight text-gray-900 dark:text-gray-50 font-semibold">
+                <h2 className="text-4xl font-semibold leading-tight text-gray-900 dark:text-gray-50 sm:text-5xl">
                   {firstBlogPostDetail.title}
                 </h2>
               </div>
@@ -60,20 +60,20 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
                 className="col-span-12 sm:col-span-6 md:col-span-4"
               >
                 <Link href={`posts/${blogPostDetail.id}`}>
-                  <div className="flex flex-col gap-4 items-center cursor-pointer">
-                    <div className="relative h-auto w-full aspect-video rounded overflow-hidden">
+                  <div className="flex cursor-pointer flex-col items-center gap-4">
+                    <div className="relative aspect-video h-auto w-full overflow-hidden rounded">
                       <Image src="/images/cover2.png" alt="Post image" fill />
                     </div>
-                    <div className="flex flex-col w-full gap-1.5">
-                      <p className="text-gray-500 dark:text-gray-600 text-sm font-medium">
+                    <div className="flex w-full flex-col gap-1.5">
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-600">
                         12 October 2022
                       </p>
 
-                      <h2 className="text-ellipsis text-xl sm:text-2xl text-gray-900 dark:text-gray-50 font-semibold">
+                      <h2 className="text-ellipsis text-xl font-semibold text-gray-900 dark:text-gray-50 sm:text-2xl">
                         {blogPostDetail.title}
                       </h2>
 
-                      <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-lg font-medium">
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-lg">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Sed ut imperdiet nunc. Nulla facilisi.
                       </p>
