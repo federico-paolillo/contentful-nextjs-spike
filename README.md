@@ -14,7 +14,9 @@ We are not using the client preset because it severely [limits the configuration
 
 Configuration is loaded using [`dotenv`](https://github.com/motdotla/dotenv), you have to setup a file named `.env.local` that has the actual configuration values. See `.env.example` for the list of entries that you need to configure. Environment variables are typed through `dotenv.d.ts`, these typings are manual so watch your typos.
 
-There is one [API Route](https://nextjs.org/docs/api-routes/introduction) available under `posts/revalidate` that is used to triggere [revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation) (using Incremental Static Regeneration) of the Blog Posts index page on-demand to keep the index up-to-date with Blog Posts published or unpublished. This API is called automatically by [Contentful Web Hooks](https://www.contentful.com/developers/docs/concepts/webhooks/) anytime a new Blog Post is published or unpublished. Single Blog Post pages are not revalidated, but any page for new Blog Posts that was not generated at build time is rendered and cached using `fallback: "blocking"`.
+There is one [API Route](https://nextjs.org/docs/api-routes/introduction) available under `posts/revalidate?id=<blog_post_id>` that is used to trigger [on-demand revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation) (using Incremental Static Regeneration) of Blog Posts pages and the index page to keep everything up-to-date with Contentful without rebuilding.  
+This API Route is called automatically by [Contentful Web Hooks](https://www.contentful.com/developers/docs/concepts/webhooks/) and uses [Webhooks URL Transformation](https://www.contentful.com/developers/docs/references/content-management-api/#url-transformation) to provide the id of the Entry that was changed as query parameter `id`.  
+This API Route is "authenticated" using a secret token that must be passed via HTTP Header. The secret token value and header name is configured through `.env.local`.
 
 It goes without saying that you _have to_ use my Contenful CMS space or create your own space and mimic my data, see: `contentful/queries` to get an idea of the Content Types that you need to have.
 
@@ -22,4 +24,5 @@ The application has absolutely no styles whatsoever.
 
 ## Run
 
-Setup a `.env.local` file using `.env.example` as basis and then run `npm run dev`
+Setup a `.env.local` file using `.env.example` as basis and then run `npm run dev`  
+Alternatively, you can visit [the site deployed on Vercel](https://contentful-nextjs-spike-jsv579woz-vercel-paolillo-fed.vercel.app/).

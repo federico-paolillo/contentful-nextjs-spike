@@ -1,11 +1,24 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+const REVALIDATE_KEY_HEADER_NAME =
+  process.env.REVALIDATE_KEY_HEADER_NAME.toLowerCase();
+
+//See: https://www.contentful.com/developers/docs/references/content-management-api/#headers
+
+const CONTENTFUL_TOPIC_HEADER_NAME = "X-Contentful-Topic";
+const CONTENTFUL_TOPIC_ENTRY_PUBLISH = "ContentManagement.Entry.publish";
+
+const CONTENTFUL_WEBHOOK_ID_QUERY_PARAMETER = "id"; //This query parameter is defined in my Contentful Web Hook definition
+
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const maybeRevalidationToken =
-    req.headers[process.env.REVALIDATE_KEY_HEADER_NAME];
+  if (req.method !== "POST") {
+    return res.status(404).end();
+  }
+
+  const maybeRevalidationToken = req.headers[REVALIDATE_KEY_HEADER_NAME];
 
   if (!maybeRevalidationToken) {
-    return res.status(400).end();
+    return res.status(401).end();
   }
 
   if (Array.isArray(maybeRevalidationToken)) {
@@ -13,10 +26,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (maybeRevalidationToken !== process.env.REVALIDATE_KEY) {
-    return res.status(401).end();
+    return res.status(403).end();
   }
 
-  await res.revalidate("/index");
+  const postId = req.query[CONTENTFUL_WEBHOOK_ID_QUERY_PARAMETER];
+  const topicType = req.headers[CONTENTFUL_TOPIC_HEADER_NAME];
+
+  const isPublish = topicType === CONTENTFUL_TOPIC_ENTRY_PUBLISH;
+
+  if (postId && isPublish) {
+    await res.revalidate(`/posts/${postId}`);
+  }
+
+  await res.revalidate("/");
 
   return res.status(204).end();
 }
