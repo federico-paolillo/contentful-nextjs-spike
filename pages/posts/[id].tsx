@@ -8,6 +8,7 @@ import { newContentfulClient } from "../../contentful/client";
 interface BlogPost {
   title: string;
   content: string;
+  publicationDate: Date;
 }
 
 interface BlogPostPageProps {
@@ -40,7 +41,7 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({
               {blogPost.title}
             </h1>
             <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-              12 October 2022
+              {new Date(blogPost.publicationDate).toLocaleDateString("en-US")}
             </p>
           </div>
 
@@ -98,6 +99,7 @@ export const getStaticProps: GetStaticProps<
   const blogPost: BlogPost = {
     title: blogPostQueryResult.post?.title || "",
     content: blogPostQueryResult.post?.content || "",
+    publicationDate: blogPostQueryResult.post?.publicationDate || "",
   };
 
   return {

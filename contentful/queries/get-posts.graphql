@@ -6,6 +6,8 @@ query GetBlogPosts {
           id
         }
         title
+        teaser
+        publicationDate
       }
     }
   }

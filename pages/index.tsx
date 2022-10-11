@@ -8,6 +8,8 @@ import { newContentfulClient } from "../contentful/client";
 interface BlogPostDetail {
   id: string;
   title: string;
+  teaser: string;
+  publicationDate: Date;
 }
 
 interface HomePageProps {
@@ -43,7 +45,9 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
 
               <div className="flex flex-col gap-2 sm:gap-4">
                 <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-                  12 October 2022
+                  {new Date(
+                    firstBlogPostDetail.publicationDate
+                  ).toLocaleDateString("en-US")}
                 </p>
 
                 <h2 className="text-4xl font-semibold leading-tight text-gray-900 dark:text-gray-50 sm:text-5xl">
@@ -66,7 +70,9 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
                     </div>
                     <div className="flex w-full flex-col gap-1.5">
                       <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-                        12 October 2022
+                        {new Date(
+                          blogPostDetail.publicationDate
+                        ).toLocaleDateString("en-US")}
                       </p>
 
                       <h2 className="text-ellipsis text-xl font-semibold text-gray-900 dark:text-gray-50 sm:text-2xl">
@@ -74,8 +80,7 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
                       </h2>
 
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-lg">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed ut imperdiet nunc. Nulla facilisi.
+                        {blogPostDetail.teaser}
                       </p>
                     </div>
                   </div>
@@ -95,12 +100,22 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async function () {
   const blogPostDetails: BlogPostDetail[] =
     blogPosts.entryCollection?.items.map((item) => ({
       title: item?.title || "Untitled",
+      teaser: item?.teaser || "Untitled",
+      publicationDate: item?.publicationDate || new Date(),
       id: item?.sys.id || "<nowhere>",
     })) || [];
 
+  const sortedBlogPostDetails = blogPostDetails.sort((a, b) => {
+    if (new Date(a.publicationDate) < new Date(b.publicationDate)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
   return {
     props: {
-      blogPostDetails,
+      blogPostDetails: sortedBlogPostDetails,
     },
   };
 };
