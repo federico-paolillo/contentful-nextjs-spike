@@ -1,5 +1,8 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Image from "next/future/image";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
+import { BoxedLayout } from "../../components/BoxedLayout";
 import { newContentfulClient } from "../../contentful/client";
 
 interface BlogPost {
@@ -25,8 +28,33 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({
 }: BlogPostPageProps) => {
   return (
     <>
-      <h2>{blogPost.title}</h2>
-      <p>{blogPost.content}</p>
+      <Head>
+        <title>{blogPost.title} - Contentful + NextJS Spike</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <BoxedLayout maxStretch="768px" className="pt-12 md:pt-24">
+        <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-4">
+            <h1 className="!leading-tight text-5xl sm:text-6xl text-gray-700 dark:text-gray-200 font-bold">
+              {blogPost.title}
+            </h1>
+            <p className="text-gray-500 dark:text-gray-600 text-sm font-medium">
+              12 October 2022
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-16">
+            <div className="relative h-auto w-full aspect-video rounded overflow-hidden min-w-[50%]">
+              <Image src="/images/cover2.png" alt="Post image" fill />
+            </div>
+
+            <BoxedLayout maxStretch="600px" className="!p-0">
+              <div className="prose">{blogPost.content}</div>
+            </BoxedLayout>
+          </div>
+        </div>
+      </BoxedLayout>
     </>
   );
 };
