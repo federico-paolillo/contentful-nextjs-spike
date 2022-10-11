@@ -5,10 +5,12 @@ const REVALIDATE_KEY_HEADER_NAME =
 
 //See: https://www.contentful.com/developers/docs/references/content-management-api/#headers
 
-const CONTENTFUL_TOPIC_HEADER_NAME = "X-Contentful-Topic";
+const CONTENTFUL_TOPIC_HEADER_NAME = "x-contentful-topic";
 const CONTENTFUL_TOPIC_ENTRY_PUBLISH = "ContentManagement.Entry.publish";
 
-const CONTENTFUL_WEBHOOK_ID_QUERY_PARAMETER = "id"; //This query parameter is defined in my Contentful Web Hook definition
+//This query parameter is defined in my Contentful Web Hook definition
+
+const CONTENTFUL_WEBHOOK_ID_QUERY_PARAMETER = "id";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -33,6 +35,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const topicType = req.headers[CONTENTFUL_TOPIC_HEADER_NAME];
 
   const isPublish = topicType === CONTENTFUL_TOPIC_ENTRY_PUBLISH;
+
+  console.log(postId);
+  console.log(topicType);
 
   if (postId && isPublish) {
     await res.revalidate(`/posts/${postId}`);
