@@ -36,7 +36,7 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
           </h1>
 
           <Link href={`posts/${firstBlogPostDetail.id}`}>
-            <div className="flex cursor-pointer flex-col gap-4 md:flex-row md:gap-12">
+            <div className="flex cursor-pointer flex-col gap-4 sm:gap-8 md:flex-row lg:gap-12">
               <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
                 <Image src="/images/cover1.png" alt="Post image" fill />
               </div>
