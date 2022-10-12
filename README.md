@@ -20,9 +20,9 @@ This API Route is "authenticated" using a secret token that must be passed via H
 
 It goes without saying that you _have to_ use my Contenful CMS space or create your own space and mimic my data, see: `contentful/queries` to get an idea of the Content Types that you need to have.
 
-The application has absolutely no styles whatsoever.
+The application uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 ## Run
 
 Setup a `.env.local` file using `.env.example` as basis and then run `npm run dev`  
-Alternatively, you can visit [the site deployed on Vercel](https://contentful-nextjs-spike-jsv579woz-vercel-paolillo-fed.vercel.app/).
+Alternatively, you can visit [the site deployed on Vercel](https://contentful-nextjs-spike.vercel.app/).
