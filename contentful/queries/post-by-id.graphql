@@ -2,5 +2,6 @@ query GetBlogPostById($postId: String!) {
   post(id: $postId) {
     title
     content
+    publicationDate
   }
 }
