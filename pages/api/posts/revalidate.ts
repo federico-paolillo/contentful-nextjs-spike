@@ -36,9 +36,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   const isPublish = topicType === CONTENTFUL_TOPIC_ENTRY_PUBLISH;
 
-  console.log(postId);
-  console.log(topicType);
-
   if (postId && isPublish) {
     await res.revalidate(`/posts/${postId}`);
   }

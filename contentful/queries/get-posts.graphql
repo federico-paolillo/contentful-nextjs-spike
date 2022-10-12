@@ -5,6 +5,10 @@ query GetBlogPosts {
         sys {
           id
         }
+        coverart {
+          url
+          title
+        }
         title
         teaser
         publicationDate

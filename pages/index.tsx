@@ -6,14 +6,16 @@ import { BoxedLayout } from "../components/BoxedLayout";
 import { newContentfulClient } from "../contentful/client";
 
 interface BlogPostDetail {
-  id: string;
-  title: string;
-  teaser: string;
-  publicationDate: Date;
+  readonly id: string;
+  readonly title: string;
+  readonly teaser: string;
+  readonly publication_date: string;
+  readonly coverart_url: string;
+  readonly coverart_alt: string;
 }
 
 interface HomePageProps {
-  blogPostDetails: BlogPostDetail[];
+  readonly blogPostDetails: BlogPostDetail[];
 }
 
 const contentfulClient = newContentfulClient(
@@ -40,19 +42,23 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
           <Link href={`posts/${firstBlogPostDetail.id}`}>
             <div className="flex cursor-pointer flex-col gap-4 sm:gap-8 md:flex-row lg:gap-12">
               <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
-                <Image src="/images/cover1.png" alt="Post image" fill />
+                <Image
+                  src={firstBlogPostDetail.coverart_url}
+                  alt={firstBlogPostDetail.coverart_alt}
+                  fill
+                />
               </div>
 
               <div className="flex flex-col gap-2 sm:gap-4">
                 <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-                  {new Date(
-                    firstBlogPostDetail.publicationDate
-                  ).toLocaleDateString("en-US")}
+                  {firstBlogPostDetail.publication_date}
                 </p>
-
                 <h2 className="text-4xl font-semibold leading-tight text-gray-900 dark:text-gray-50 sm:text-5xl">
                   {firstBlogPostDetail.title}
                 </h2>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-lg">
+                  {firstBlogPostDetail.teaser}
+                </p>
               </div>
             </div>
           </Link>
@@ -66,13 +72,15 @@ const Home: NextPage<HomePageProps> = ({ blogPostDetails }) => {
                 <Link href={`posts/${blogPostDetail.id}`}>
                   <div className="flex cursor-pointer flex-col items-center gap-4">
                     <div className="relative aspect-video h-auto w-full overflow-hidden rounded">
-                      <Image src="/images/cover2.png" alt="Post image" fill />
+                      <Image
+                        src={blogPostDetail.coverart_url}
+                        alt={blogPostDetail.coverart_alt}
+                        fill
+                      />
                     </div>
                     <div className="flex w-full flex-col gap-1.5">
                       <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-                        {new Date(
-                          blogPostDetail.publicationDate
-                        ).toLocaleDateString("en-US")}
+                        {blogPostDetail.publication_date}
                       </p>
 
                       <h2 className="text-ellipsis text-xl font-semibold text-gray-900 dark:text-gray-50 sm:text-2xl">
@@ -101,21 +109,17 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async function () {
     blogPosts.entryCollection?.items.map((item) => ({
       title: item?.title || "Untitled",
       teaser: item?.teaser || "Untitled",
-      publicationDate: item?.publicationDate || new Date(),
-      id: item?.sys.id || "<nowhere>",
+      publication_date:
+        new Date(item?.publicationDate).toLocaleDateString("en-US") ||
+        "<never>",
+      id: item?.sys.id || "<unknown>",
+      coverart_alt: item?.coverart?.title ?? "",
+      coverart_url: item?.coverart?.url ?? "",
     })) || [];
-
-  const sortedBlogPostDetails = blogPostDetails.sort((a, b) => {
-    if (new Date(a.publicationDate) < new Date(b.publicationDate)) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
 
   return {
     props: {
-      blogPostDetails: sortedBlogPostDetails,
+      blogPostDetails,
     },
   };
 };

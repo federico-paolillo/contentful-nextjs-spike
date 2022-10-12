@@ -6,17 +6,19 @@ import { BoxedLayout } from "../../components/BoxedLayout";
 import { newContentfulClient } from "../../contentful/client";
 
 interface BlogPost {
-  title: string;
-  content: string;
-  publicationDate: Date;
+  readonly title: string;
+  readonly content: string;
+  readonly publication_date: string;
+  readonly coverart_url: string;
+  readonly coverart_alt: string;
 }
 
 interface BlogPostPageProps {
-  blogPost: BlogPost;
+  readonly blogPost: BlogPost;
 }
 
 interface BlogPostPageSsrParams extends ParsedUrlQuery {
-  id: string;
+  readonly id: string;
 }
 
 const contentfulClient = newContentfulClient(
@@ -41,13 +43,17 @@ const BlogPostPage: NextPage<BlogPostPageProps> = ({
               {blogPost.title}
             </h1>
             <p className="text-sm font-medium text-gray-400 dark:text-gray-600">
-              {new Date(blogPost.publicationDate).toLocaleDateString("en-US")}
+              {blogPost.publication_date}
             </p>
           </div>
 
           <div className="flex flex-col gap-8 sm:gap-16">
             <div className="relative aspect-video h-auto w-full min-w-[50%] overflow-hidden rounded">
-              <Image src="/images/cover2.png" alt="Post image" fill />
+              <Image
+                src={blogPost.coverart_url}
+                alt={blogPost.coverart_alt}
+                fill
+              />
             </div>
 
             <BoxedLayout maxStretch="600px" className="!p-0">
@@ -97,9 +103,14 @@ export const getStaticProps: GetStaticProps<
   }
 
   const blogPost: BlogPost = {
-    title: blogPostQueryResult.post?.title || "",
-    content: blogPostQueryResult.post?.content || "",
-    publicationDate: blogPostQueryResult.post?.publicationDate || "",
+    title: blogPostQueryResult.post?.title || "<untitled>",
+    content: blogPostQueryResult.post?.content || "<nothing>",
+    publication_date:
+      new Date(blogPostQueryResult.post?.publicationDate).toLocaleDateString(
+        "en-US"
+      ) || "<never>",
+    coverart_url: blogPostQueryResult.post.coverart?.url || "",
+    coverart_alt: blogPostQueryResult.post.coverart?.title || "",
   };
 
   return {

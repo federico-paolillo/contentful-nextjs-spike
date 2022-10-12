@@ -1,5 +1,9 @@
 query GetBlogPostById($postId: String!) {
   post(id: $postId) {
+    coverart {
+      url
+      title
+    }
     title
     content
     publicationDate
